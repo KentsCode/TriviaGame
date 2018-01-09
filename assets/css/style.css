@@ -1,0 +1,11 @@
+#main {
+	background-color: orange;
+}
+#questionArea {
+	color: blue;
+}
+#questionForm {
+	display: inline;
+	clear: none;
+	background-color: white;
+}
