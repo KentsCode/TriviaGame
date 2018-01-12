@@ -23,13 +23,15 @@ $(document).ready(function() {
 	var numberCorrect = 0;
 	var numberWrong = 0;
 	var numberUnanswered = 0;
-	
+	var time = 2;
+
 	function gameStart(){
 		$(this).hide();
 		$("#button1").show();
 		$("#button2").show();
 		$("#button3").show();
 		$("#button4").show();
+		$("#timer").show();
 		howManyQuestionsAnswered = 0;
 		guessedAnswers = [];
 		correctAnswerArray = [];
@@ -37,7 +39,7 @@ $(document).ready(function() {
 		numberWrong = 0;
 		numberUnanswered = 0; 
 		loadQuestion();		
-		startClock();
+		timeCount();
 	}
 
 	function loadQuestion() {
@@ -46,10 +48,14 @@ $(document).ready(function() {
 		$("#button2").text(arrayOfQuestions[howManyQuestionsAnswered].answerB);
 		$("#button3").text(arrayOfQuestions[howManyQuestionsAnswered].answerC);
 		$("#button4").text(arrayOfQuestions[howManyQuestionsAnswered].answerD);
+		time =2;
+		startClock();
+		console.log(howManyQuestionsAnswered);
 	}
 
 	function mainGame() {
 		$("#button1").click(function(){
+			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerA);
 			howManyQuestionsAnswered++;
 			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
@@ -60,6 +66,7 @@ $(document).ready(function() {
 		});
 
 		$("#button2").click(function(){
+			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerB);
 			howManyQuestionsAnswered++;
 			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
@@ -69,6 +76,7 @@ $(document).ready(function() {
 			}
 		});
 		$("#button3").click(function(){
+			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerC);
 			howManyQuestionsAnswered++;
 			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
@@ -78,6 +86,7 @@ $(document).ready(function() {
 			}
 		});
 		$("#button4").click(function(){
+			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerD);
 			howManyQuestionsAnswered++;
 			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
@@ -96,21 +105,27 @@ $(document).ready(function() {
 		}
 	}
 
-	var time = 5; //time set to 60 seconds
-
 	function timeCount() {
 		
 		$("#timer").text(time);
 		time--; //counts down
-		if (time === -1) {
+		if (time === -1 && howManyQuestionsAnswered < 4) {
+			howManyQuestionsAnswered++;
 			stopTime();
-		}
+			guessedAnswers.push("timeOutNoAnswer");
+			loadQuestion();
+		} 
+		/*if (time === -1 && howManyQuestionsAnswered > 4) {} {
+			stopTime();
+			guessedAnswers.push("timeOutNoAnswer");
+			howManyQuestionsAnswered++;
+			gameOver();
+		}*/
 	} 
 
 	function stopTime() {
+		clockRunning = false;
 		clearInterval(gameClock);
-		time = 0;
-		$("#timer").text(time);
 	}
 
 	function gameOver() {
@@ -123,6 +138,16 @@ $(document).ready(function() {
 			}
 		}
 		
+			console.log(guessedAnswers);
+
+		var displayCorrect = $("<p>Number Correct: " + numberCorrect + "</p>");
+		displayCorrect.attr("class", "finalScoreDisplay");
+		$("#questionArea").append(displayCorrect);
+
+		var displayWrong = $("<p>Number Wrong: " + numberWrong + "</p>");
+		displayWrong.attr("class", "finalScoreDisplay");
+		$("#questionArea").append(displayWrong);
+
 		$("#question").text("Game Over!");
 		$("#button1").hide();
 		$("#button2").hide();
@@ -136,7 +161,9 @@ $(document).ready(function() {
 	function restartGame() {
 		$("#startButton").show();
 		$("#restartButton").hide();
-		
+		time = 2;
+		$(".finalScoreDisplay").remove();
+		console.log(time);
 	}
 
 	mainGame();
