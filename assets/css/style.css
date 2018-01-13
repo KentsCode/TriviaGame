@@ -1,5 +1,4 @@
 #main {
-	background-color: orange;
 }
 #questionArea {
 	color: blue;
@@ -8,4 +7,32 @@
 	display: inline;
 	clear: none;
 	background-color: white;
+}
+#question {
+	font-size: 30px;
+}
+#titleP {
+	font-size: 100px;
+	background-color: #E3D4B5;
+	margin: 0;
+}
+.answerButton {
+	height: 50px;
+	width: 400px;
+	margin: 30px;
+	font-size: 20px;
+}
+.container {
+	margin-top: 65px;
+}
+.panel {
+	height: 500px;
+}
+.panel-heading {
+	margin: 0;
+	padding: 0;
+}
+.finalScoreDisplay {
+	font-size: 30px;
+	padding-left: 20px;
 }

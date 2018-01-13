@@ -9,25 +9,41 @@
 
 <body>
 	
-	<div id="main">
-		<div id="timer"></div>
+	<div class="container">
 
-		<div id="questionArea">
-			<p id="question"></p>
+		<div class="panel panel-default">
+			<div class="text-center panel-heading col-xs-12 col-lg-12" id="title">
+				<p id="titleP">Science Trivia!</p>
+			</div>
 
-			<button id="button1">1</button>
-			<button id="button2">2</button>
-			<button id="button3">3</button>
-			<button id="button4">4</button>
+			<div class="panel-body">
+			<div id="main" class="row">
+				<div class="text-center" id="timer"></div>
+			</div>
+				<div class="row" id="questionArea">
+					<p class="text-center" id="question"></p>
+				</div>
 
-		</div>	
-		
-		<div id="startArea">
-			<button id="startButton">Start Game!</button>
-			<button id="restartButton"> Restart Game </button>
+				<div class="row text-center">
+					<button class="answerButton" id="button1">1</button>
+					<button class="answerButton" id="button2">2</button>
+				</div>	
+				<div class="row text-center">
+					<button class="answerButton" id="button3">3</button>
+					<button class="answerButton" id="button4">4</button>
+				</div>	
+				
+				<div class="row text-center" id="startArea">
+					<button id="startButton">Start Game!</button>
+					<button id="restartButton"> Restart Game </button>
+				</div>
+
+			</div>
 		</div>
-
 	</div>
+
+
+	<img src="assets/images/lab1.png">
 
 	<script type="text/javascript" src="assets/javascript/jquery.js"></script>
 

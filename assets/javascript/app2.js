@@ -8,11 +8,11 @@ $(document).ready(function() {
 	$("#startButton").click(gameStart); 	
 
 	var arrayOfQuestions = [
-		{question: "What is the 1 question?", answerA: "a", answerB: "textB", answerC: "c", answerD: "d", correctAnswer: "textB"},
-		{question: "What is the 2 question?", answerA: "a2", answerB: "b2", answerC: "textC", answerD: "d2", correctAnswer: "textC"},
-		{question: "What is the 3 question?", answerA: "textA", answerB: "b3", answerC: "c3", answerD: "d3", correctAnswer: "textA"},
-		{question: "What is the 4 question?", answerA: "a", answerB: "b", answerC: "textC", answerD: "d", correctAnswer: "textC"},
-		{question: "What is the 5 question?", answerA: "a", answerB: "b", answerC: "c", answerD: "textD", correctAnswer: "textD"},
+		{question: "Which planet has the most moons?", answerA: "Mercury", answerB: "Jupiter", answerC: "Saturn", answerD: "Venus", correctAnswer: "Jupiter"},
+		{question: "At what temperature are Celcius and Fahreheit equal?", answerA: "100", answerB: "26", answerC: "-17", answerD: "-40", correctAnswer: "-40"},
+		{question: "Which of the following elements on the periodic table are liquids at room temperature?", answerA: "Bromine", answerB: "Galium", answerC: "Iodine", answerD: "Indium", correctAnswer: "Bromine"},
+		{question: "What is the medical term for bad breath?", answerA: "Gastrointenstinal Dystopia", answerB: "Flatulence", answerC: "Halitosis", answerD: "Emesis", correctAnswer: "Halitosis"},
+		{question: "In what month is the Earth closest to the Sun?", answerA: "January", answerB: "April", answerC: "July", answerD: "October", correctAnswer: "January"},
 	] 
 
 	var gameClock;
@@ -23,7 +23,7 @@ $(document).ready(function() {
 	var numberCorrect = 0;
 	var numberWrong = 0;
 	var numberUnanswered = 0;
-	var time = 2;
+	var time = 10;
 
 	function gameStart(){
 		$(this).hide();
@@ -39,18 +39,20 @@ $(document).ready(function() {
 		numberWrong = 0;
 		numberUnanswered = 0; 
 		loadQuestion();		
-		timeCount();
 	}
 
 	function loadQuestion() {
+		if (howManyQuestionsAnswered === arrayOfQuestions.length) {
+				gameOver();
+			} else {
 		$("#question").text(arrayOfQuestions[howManyQuestionsAnswered].question);
 		$("#button1").text(arrayOfQuestions[howManyQuestionsAnswered].answerA);
 		$("#button2").text(arrayOfQuestions[howManyQuestionsAnswered].answerB);
 		$("#button3").text(arrayOfQuestions[howManyQuestionsAnswered].answerC);
 		$("#button4").text(arrayOfQuestions[howManyQuestionsAnswered].answerD);
-		time =2;
+		time = 10;
 		startClock();
-		console.log(howManyQuestionsAnswered);
+			}
 	}
 
 	function mainGame() {
@@ -58,44 +60,27 @@ $(document).ready(function() {
 			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerA);
 			howManyQuestionsAnswered++;
-			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
-				gameOver();
-			} else {
 				loadQuestion();
-			}
 		});
 
 		$("#button2").click(function(){
 			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerB);
 			howManyQuestionsAnswered++;
-			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
-				gameOver();
-			} else {
 				loadQuestion();
-			}
 		});
 		$("#button3").click(function(){
 			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerC);
 			howManyQuestionsAnswered++;
-			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
-				gameOver();
-			} else {
 				loadQuestion();
-			}
 		});
 		$("#button4").click(function(){
 			stopTime();
 			guessedAnswers.push(arrayOfQuestions[howManyQuestionsAnswered].answerD);
 			howManyQuestionsAnswered++;
-			if (howManyQuestionsAnswered === arrayOfQuestions.length) {
-				gameOver();
-			} else {
 				loadQuestion();
-			}
 		});
-
 	}
 
 	function startClock() {
@@ -109,18 +94,12 @@ $(document).ready(function() {
 		
 		$("#timer").text(time);
 		time--; //counts down
-		if (time === -1 && howManyQuestionsAnswered < 4) {
+		if (time === -1) {
 			howManyQuestionsAnswered++;
 			stopTime();
 			guessedAnswers.push("timeOutNoAnswer");
 			loadQuestion();
 		} 
-		/*if (time === -1 && howManyQuestionsAnswered > 4) {} {
-			stopTime();
-			guessedAnswers.push("timeOutNoAnswer");
-			howManyQuestionsAnswered++;
-			gameOver();
-		}*/
 	} 
 
 	function stopTime() {
@@ -129,6 +108,7 @@ $(document).ready(function() {
 	}
 
 	function gameOver() {
+		stopTime();
 
 		for (var i = 0; i < howManyQuestionsAnswered; i++) {
 			if (guessedAnswers[i] === arrayOfQuestions[i].correctAnswer)  {
@@ -137,8 +117,6 @@ $(document).ready(function() {
 				numberWrong++;
 			}
 		}
-		
-			console.log(guessedAnswers);
 
 		var displayCorrect = $("<p>Number Correct: " + numberCorrect + "</p>");
 		displayCorrect.attr("class", "finalScoreDisplay");
@@ -161,9 +139,8 @@ $(document).ready(function() {
 	function restartGame() {
 		$("#startButton").show();
 		$("#restartButton").hide();
-		time = 2;
+		time = 10;
 		$(".finalScoreDisplay").remove();
-		console.log(time);
 	}
 
 	mainGame();
